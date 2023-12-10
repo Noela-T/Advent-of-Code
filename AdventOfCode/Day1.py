@@ -1,4 +1,4 @@
-sum = 0
+sum_snow = 0
 word_to_digit = {
     'zero': '0',
     'one': '1',
@@ -34,6 +34,6 @@ with open("data_1.txt", "r") as file:
         else:
             digit_str = digit_str[0] + digit_str[-1]
         digit = int(digit_str)
-        sum += digit
+        sum_snow += digit
 
-print(sum)
+print(sum_snow)
