@@ -9,7 +9,7 @@ Two_pairs=[]
 One_pairs=[]
 High_cards=[]
 
-"""with open("data7.txt", "r") as file:
+with open("data7.txt", "r") as file:
     #read each line of the input to determine the type of a card following the description from AOC
     for line in file:
         card = line.split()[0]
@@ -31,33 +31,29 @@ High_cards=[]
         elif length == 4:
             One_pairs.append([card,bid]) #add to onepair
         else:
-            High_cards.append([card,bid]) #add to Highcard"""
+            High_cards.append([card,bid]) #add to Highcard
 
 
 def sort_cards(card_type):
-    """This function sorts the cards for each type. This first step in this sorting is to separate each card type into a list of numbers only and then a mixed list
-        Then we use a bubble sort algorithm to sort the mixed list. The key for comparism comes from the content dictionary"""
-    num=[sublist for sublist in card_type if sublist[0].isdigit()]
-    num.sort()
-    mixed=[sublist for sublist in card_type if sublist[0].isdigit() is False]
-    n = len(mixed)
+    """This function sorts the cards for each type. Used bubble sort algorithm on each card_type. The key for comparism comes from the content dictionary"""
+    n = len(card_type)
     global content
     for i in range(n):
         for j in range(0,n-i-1):
-            for c,s in zip(mixed[j][0],mixed[j+1][0]):
-                if content[c] == content[s]:
+            for c,s in zip(card_type[j][0],card_type[j+1][0]):
+                if content[c] == content[s]: #swap cards based on the strength of its characters as defined by the content dictionary
                     continue
                 if content[c] > content[s]:
-                    mixed[j],mixed[j+1] = mixed[j+1],mixed[j]
+                    card_type[j],card_type[j+1] = card_type[j+1],card_type[j]
                     break
                 if content[c] < content[s]:
                     break
-    return num+mixed
+    return card_type
 
 with open("day7.txt","x") as file:
     #create a new file with the different card_types to determine the rank of each card. Cardtypes are sorted before writing them to the file
-    file.write("\n".join([" ".join(str(element) for element in sublist) for sublist in sort_cards(High_cards)]))
-    file.write("\n")
+    file.write("\n".join([" ".join(str(element) for element in sublist) for sublist in sort_cards(High_cards)])) #for each card in a cardtype, add it as a newline with the type and bid separated by space, and each card separated by a newline
+    file.write("\n") #newline for each new card_type
     file.write("\n".join([" ".join(str(element) for element in sublist) for sublist in sort_cards(One_pairs)]))
     file.write("\n")
     file.write("\n".join([" ".join(str(element) for element in sublist) for sublist in sort_cards(Two_pairs)]))
